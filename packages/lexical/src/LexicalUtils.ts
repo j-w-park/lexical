@@ -1104,7 +1104,7 @@ export function dispatchCommand<TCommand extends LexicalCommand<unknown>>(
   command: TCommand,
   payload: CommandPayloadType<TCommand>,
 ): boolean {
-  return triggerCommandListeners(editor, type, payload);
+  return triggerCommandListeners(editor, command, payload);
 }
 
 export function $textContentRequiresDoubleLinebreakAtEnd(
