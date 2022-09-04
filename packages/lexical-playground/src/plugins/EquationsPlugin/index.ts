@@ -27,7 +27,7 @@ type CommandPayload = {
 };
 
 export const INSERT_EQUATION_COMMAND: LexicalCommand<CommandPayload> =
-  createCommand();
+  createCommand('INSERT_EQUATION_COMMAND');
 
 export default function EquationsPlugin(): JSX.Element | null {
   const [editor] = useLexicalComposerContext();

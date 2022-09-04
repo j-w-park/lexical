@@ -7,6 +7,7 @@
  */
 
 import type {
+  CommandPayloadType,
   EditorUpdateOptions,
   LexicalCommand,
   LexicalEditor,
@@ -638,15 +639,17 @@ export function triggerListeners(
   }
 }
 
-export function triggerCommandListeners<P>(
+export function triggerCommandListeners<
+  TCommand extends LexicalCommand<unknown>,
+>(
   editor: LexicalEditor,
-  type: LexicalCommand<P>,
-  payload: P,
+  command: TCommand,
+  payload: CommandPayloadType<TCommand>,
 ): boolean {
   if (editor._updating === false || activeEditor !== editor) {
     let returnVal = false;
     editor.update(() => {
-      returnVal = triggerCommandListeners(editor, type, payload);
+      returnVal = triggerCommandListeners(editor, command, payload);
     });
     return returnVal;
   }
@@ -657,7 +660,7 @@ export function triggerCommandListeners<P>(
     for (let e = 0; e < editors.length; e++) {
       const currentEditor = editors[e];
       const commandListeners = currentEditor._commands;
-      const listenerInPriorityOrder = commandListeners.get(type);
+      const listenerInPriorityOrder = commandListeners.get(command);
 
       if (listenerInPriorityOrder !== undefined) {
         const listenersSet = listenerInPriorityOrder[i];

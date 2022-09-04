@@ -37,7 +37,7 @@ import {
 export type InsertImagePayload = Readonly<ImagePayload>;
 
 export const INSERT_IMAGE_COMMAND: LexicalCommand<InsertImagePayload> =
-  createCommand();
+  createCommand('INSERT_IMAGE_COMMAND');
 export default function ImagesPlugin(): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
 

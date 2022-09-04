@@ -20,7 +20,9 @@ import {useEffect} from 'react';
 
 import {$createPollNode, PollNode} from '../../nodes/PollNode';
 
-export const INSERT_POLL_COMMAND: LexicalCommand<string> = createCommand();
+export const INSERT_POLL_COMMAND: LexicalCommand<string> = createCommand(
+  'INSERT_POLL_COMMAND',
+);
 
 export default function PollPlugin(): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
