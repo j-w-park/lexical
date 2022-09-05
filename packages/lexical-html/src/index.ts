@@ -110,6 +110,7 @@ function $appendNodesToHTML(
       !shouldInclude &&
       $isElementNode(currentNode) &&
       shouldIncludeChild &&
+      selection !== undefined &&
       currentNode.extractWithChild(childNode, selection, 'html')
     ) {
       shouldInclude = true;
