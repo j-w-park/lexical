@@ -1,0 +1,9 @@
+.ColumnComponent__container {
+  display: flex;
+}
+
+.ColumnComponent__column {
+  /* border: 1px solid blue; */
+  flex: 1;
+  margin-left: 28px;
+}
