@@ -46,8 +46,9 @@ export default function ToolbarPlugin2(): JSX.Element {
   return (
     <>
       {modal}
-      <div className="ToolbarPlugin2__container">
-        {/* <button
+      <nav className="ToolbarPlugin2__container">
+        <ul>
+          {/* <button
           onClick={() => {
             activeEditor.update(() => {
               const selection = $getSelection();
@@ -58,95 +59,123 @@ export default function ToolbarPlugin2(): JSX.Element {
           }}>
           H1
         </button> */}
-        <button
-          onClick={() => {
-            editor.update(() => {
-              const selection = $getSelection();
-              if ($isRangeSelection(selection)) {
-                const nodes = selection.getNodes();
-                const topNode = nodes[0].getTopLevelElementOrThrow();
-                topNode.insertAfter($createSlideNode());
-              } else {
-                $getRoot().append($createSlideNode());
-              }
-            });
-          }}>
-          Slide
-        </button>
-        <button
-          onClick={() => {
-            editor.update(() => {
-              activeEditor.update(() => {
-                const selection = $getSelection();
-                if ($isRangeSelection(selection)) {
-                  selection.insertNodes([$createColumnNode()]);
+          <li>
+            <button
+              onClick={() => {
+                editor.update(() => {
+                  const selection = $getSelection();
+                  if ($isRangeSelection(selection)) {
+                    const nodes = selection.getNodes();
+                    const topNode = nodes[0].getTopLevelElementOrThrow();
+                    topNode.insertAfter($createSlideNode());
+                  } else {
+                    $getRoot().append($createSlideNode());
+                  }
+                });
+              }}
+              className="ToolbarPlugin2__toolbar-item">
+              <i className="icon slide" />
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => {
+                editor.update(() => {
+                  activeEditor.update(() => {
+                    const selection = $getSelection();
+                    if ($isRangeSelection(selection)) {
+                      selection.insertNodes([$createColumnNode()]);
+                    }
+                  });
+                });
+              }}
+              className="ToolbarPlugin2__toolbar-item">
+              <i className="icon column" />
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => {
+                showModal('Insert Image', (onClose) => (
+                  <InsertImageDialog
+                    activeEditor={activeEditor}
+                    onClose={onClose}
+                  />
+                ));
+              }}
+              title="Image"
+              aria-label="Export editor state to JSON"
+              className="ToolbarPlugin2__toolbar-item">
+              <i className="icon image" />
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => {
+                activeEditor.dispatchCommand(
+                  INSERT_EXCALIDRAW_COMMAND,
+                  undefined,
+                );
+              }}
+              title="Excalidraw"
+              aria-label="Export editor state to JSON"
+              className="ToolbarPlugin2__toolbar-item">
+              <i className="icon excalidraw" />
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => {
+                const sandboxID = prompt('CodeSandbox ID');
+                if (typeof sandboxID === 'string') {
+                  activeEditor.dispatchCommand(
+                    INSERT_CODESANDBOX_COMMAND,
+                    sandboxID,
+                  );
                 }
-              });
-            });
-          }}>
-          2-Column
-        </button>
-        <button
-          onClick={() => {
-            showModal('Insert Image', (onClose) => (
-              <InsertImageDialog
-                activeEditor={activeEditor}
-                onClose={onClose}
-              />
-            ));
-          }}
-          title="Image"
-          aria-label="Export editor state to JSON">
-          Image
-        </button>
-        <button
-          onClick={() => {
-            activeEditor.dispatchCommand(INSERT_EXCALIDRAW_COMMAND, undefined);
-          }}
-          title="Excalidraw"
-          aria-label="Export editor state to JSON">
-          Excalidraw
-        </button>
-        <button
-          onClick={() => importFile(editor)}
-          title="Import"
-          aria-label="Import editor state from JSON">
-          Import
-        </button>
-        <button
-          onClick={() => {
-            const sandboxID = prompt('CodeSandbox ID');
-            if (typeof sandboxID === 'string') {
-              activeEditor.dispatchCommand(
-                INSERT_CODESANDBOX_COMMAND,
-                sandboxID,
-              );
-            }
-          }}
-          title="CodeSandbox"
-          aria-label="Export editor state to JSON">
-          CodeSandbox
-        </button>
-        <button
-          onClick={() =>
-            exportFile(editor, {
-              fileName: `Playground ${new Date().toISOString()}`,
-              source: 'Playground',
-            })
-          }
-          title="Export"
-          aria-label="Export editor state to JSON">
-          Export
-        </button>
-        <button
-          onClick={() => {
-            document.body.requestFullscreen();
-          }}
-          title="Full screen"
-          aria-label="Export editor state to JSON">
-          Full screen
-        </button>
-      </div>
+              }}
+              title="CodeSandbox"
+              aria-label="Export editor state to JSON"
+              className="ToolbarPlugin2__toolbar-item">
+              <i className="icon codesandbox" />
+            </button>
+          </li>
+          <li className="toolbar-divider">
+            <button
+              onClick={() => importFile(editor)}
+              title="Import"
+              aria-label="Import editor state from JSON"
+              className="ToolbarPlugin2__toolbar-item">
+              <i className="icon import" />
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() =>
+                exportFile(editor, {
+                  fileName: `Playground ${new Date().toISOString()}`,
+                  source: 'Playground',
+                })
+              }
+              title="Export"
+              aria-label="Export editor state to JSON"
+              className="ToolbarPlugin2__toolbar-item">
+              <i className="icon export" />
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={() => {
+                document.body.requestFullscreen();
+              }}
+              title="Full screen"
+              aria-label="Export editor state to JSON"
+              className="ToolbarPlugin2__toolbar-item">
+              <i className="icon fullscreen" />
+            </button>
+          </li>
+        </ul>
+      </nav>
     </>
   );
 }

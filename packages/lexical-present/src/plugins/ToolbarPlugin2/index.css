@@ -1,5 +1,100 @@
 .ToolbarPlugin2__container {
   position: fixed;
-  top: 0;
-  right: 0;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #fefefe;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  /* box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2); */
+}
+
+.ToolbarPlugin2__container ul {
+  list-style: none;
+  padding: 0 16px 0 8px;
+}
+
+.ToolbarPlugin2__container .toolbar-divider {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  border-top: 1px solid #666;
+}
+
+.ToolbarPlugin2__toolbar-item {
+  border: 0;
+  display: flex;
+  background: none;
+  border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
+  vertical-align: middle;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ToolbarPlugin2__toolbar-item:hover:not([disabled]) {
+  background-color: #eee;
+}
+
+.ToolbarPlugin2__toolbar-item .icon {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  user-select: none;
+  margin: 2px 2px 2px 2px;
+  line-height: 16px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* background-color: #000; */
+}
+
+.icon.slide {
+  background-image: url(../../../icons/plus-square.svg);
+  /* -webkit-mask: url(../../../icons/plus-square.svg) no-repeat 50% 50%;
+  mask: url(../../../icons/plus-square.svg) no-repeat 50% 50%; */
+}
+
+.icon.column {
+  background-image: url(../../../icons/layout-sidebar-inset-reverse.svg);
+  /* -webkit-mask: url(../../../icons/layout-sidebar-inset-reverse.svg) no-repeat
+    50% 50%;
+  mask: url(../../../icons/layout-sidebar-inset-reverse.svg) no-repeat 50% 50%; */
+}
+
+.icon.image {
+  background-image: url(../../../icons/image.svg);
+  /* -webkit-mask: url(../../../icons/image.svg) no-repeat 50% 50%; */
+  /* mask: url(../../../icons/image.svg) no-repeat 50% 50%; */
+}
+
+.icon.excalidraw {
+  background-image: url(../../../icons/diagram-3.svg);
+  /* -webkit-mask: url(../../../icons/image.svg) no-repeat 50% 50%; */
+  /* mask: url(../../../icons/image.svg) no-repeat 50% 50%; */
+}
+
+.icon.codesandbox {
+  background-image: url(../../../icons/code.svg);
+  /* -webkit-mask: url(../../../icons/image.svg) no-repeat 50% 50%; */
+  /* mask: url(../../../icons/image.svg) no-repeat 50% 50%; */
+}
+
+.icon.import {
+  background-image: url(../../../icons/file-arrow-up.svg);
+  /* -webkit-mask: url(../../../icons/image.svg) no-repeat 50% 50%; */
+  /* mask: url(../../../icons/image.svg) no-repeat 50% 50%; */
+}
+
+.icon.export {
+  background-image: url(../../../icons/file-arrow-down.svg);
+  /* -webkit-mask: url(../../../icons/image.svg) no-repeat 50% 50%; */
+  /* mask: url(../../../icons/image.svg) no-repeat 50% 50%; */
+}
+
+.icon.fullscreen {
+  background-image: url(../../../icons/fullscreen.svg);
+  /* -webkit-mask: url(../../../icons/image.svg) no-repeat 50% 50%; */
+  /* mask: url(../../../icons/image.svg) no-repeat 50% 50%; */
 }
