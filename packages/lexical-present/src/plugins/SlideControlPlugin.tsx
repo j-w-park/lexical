@@ -7,13 +7,36 @@
  */
 
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {$getRoot} from 'lexical';
-import {useEffect} from 'react';
+import {$getRoot, $nodesOfType} from 'lexical';
+import {useEffect, useState} from 'react';
+import * as React from 'react';
+
+import {SlideNode} from '../nodes/SlideNode';
 
 let slide = 0;
 
-export default function SlideControlPlugin(): null {
+function useKeyboardNavigation() {
   const [editor] = useLexicalComposerContext();
+  const [count, setCount] = useState(0);
+  const [selected, setSelected] = useState(0);
+  useEffect(() => {
+    let currentCount = 0;
+    editor.getEditorState().read(() => {
+      currentCount = $nodesOfType(SlideNode).length;
+      setCount(currentCount);
+    });
+    return editor.registerMutationListener(SlideNode, (entries) => {
+      for (const entry of entries) {
+        if (entry[1] === 'created') {
+          currentCount++;
+          setCount(currentCount);
+        } else if (entry[1] === 'destroyed') {
+          currentCount--;
+          setCount(currentCount);
+        }
+      }
+    });
+  }, [editor]);
   useEffect(() => {
     function moveToSlide() {
       // eslint-disable-next-line no-console
@@ -22,14 +45,14 @@ export default function SlideControlPlugin(): null {
       setTimeout(() => {
         editor.update(() => {
           const root = $getRoot();
-          let count = -1;
+          let j = -1;
           const children = root.getChildren();
           for (let i = 0; i < children.length; i++) {
             const node = children[i];
             // instanceof ??
             if (node.__type === 'slide') {
-              count++;
-              if (count === slide) {
+              j++;
+              if (j === slide) {
                 const domElement = editor.getElementByKey(node.getKey());
                 if (domElement !== null) {
                   domElement.scrollIntoView({
@@ -46,12 +69,12 @@ export default function SlideControlPlugin(): null {
     const handler = (e: KeyboardEvent) => {
       if (e.ctrlKey || e.metaKey) {
         if (e.key === 'ArrowLeft') {
-          slide--;
+          setSelected(--slide);
           moveToSlide();
           e.preventDefault();
         } else {
           if (e.key === 'ArrowRight') {
-            slide++;
+            setSelected(++slide);
             moveToSlide();
             e.preventDefault();
           }
@@ -63,7 +86,36 @@ export default function SlideControlPlugin(): null {
       document.removeEventListener('keydown', handler);
     };
   });
-  return null;
+  return [count, selected];
+}
+
+function TOC({
+  count,
+  selected,
+}: {
+  count: number;
+  selected: number;
+}): JSX.Element {
+  console.info(count, selected);
+  return (
+    <div className="toc">
+      <ul>
+        {Array(count)
+          .fill(0)
+          .map((v, i) => (
+            <li
+              key={i}
+              className={`toc__li ${i === selected ? 'toc__li-selected' : ''}`}
+            />
+          ))}
+      </ul>
+    </div>
+  );
+}
+
+export default function SlideControlPlugin(): JSX.Element {
+  const [count, selected] = useKeyboardNavigation();
+  return <TOC count={count} selected={selected} />;
 }
 
 // export default function SlideControlPlugin(): null {
